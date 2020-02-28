@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.8.2"
+  }
 }
