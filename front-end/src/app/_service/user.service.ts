@@ -10,7 +10,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  get(search) {
-    return this.http.get(`${this.baseUrl}user/search?name=${search}`);
+  get(search, page) {
+    return this.http.get(`${this.baseUrl}user/search?name=${search}&page=${page}`);
   }
 }

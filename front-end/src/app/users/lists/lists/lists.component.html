@@ -1,10 +1,17 @@
-<input 
-  type="number" 
-  placeholder="enter user id..."
-  (input)="searchUsers($event.target.value)"
->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <input 
+        type="text"
+        class="form-control"
+        placeholder="enter user id..."
+        (input)="onSearch($event.target.value)"
+      >
 
-<ng-container *ngIf="(users$ | async) as users">
-  User List
-  <user-list *ngFor="let user of users" [user]="user"></user-list>
-</ng-container>
+      <ng-container *ngIf="users$">
+        User List
+        <user-list *ngFor="let user of users$" [user]="user"></user-list>
+      </ng-container>
+    </div>
+  </div>
+</div>
