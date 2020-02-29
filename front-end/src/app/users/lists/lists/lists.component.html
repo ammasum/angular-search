@@ -1,0 +1,10 @@
+<input 
+  type="number" 
+  placeholder="enter user id..."
+  (input)="searchUsers($event.target.value)"
+>
+
+<ng-container *ngIf="(users$ | async) as users">
+  User List
+  <user-list *ngFor="let user of users" [user]="user"></user-list>
+</ng-container>
