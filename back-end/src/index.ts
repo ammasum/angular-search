@@ -1,17 +1,42 @@
 import express from 'express';
-import db from './helper/dbConnection'
+import jwt from 'jsonwebtoken';
+import bodyParser from 'body-parser';
+import quickRes from './helper/quickResponse';
+import db from './helper/dbConnection';
+import authController from './controller/auth';
 require('dotenv').config();
 
 const port = process.env.PORT || 4500;
 const app = express();
 
-app.use('/user', (req, res, next) => {
+app.all('*', (req, res, next) => {
     res.set("Access-Control-Allow-Origin", "*");
     res.set("Access-Control-Request-Headers", "*");
     res.set("Access-Control-Allow-Headers", "*");
     res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     next();
 });
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/user', (req, res, next) => {
+    const token = <string>req.get('Authorization');
+    if(!token) {
+        quickRes.unAuthorized(res, true);
+        return;
+    }
+    jwt.verify(token, <string>process.env.jwt_secret, function(err: any, decoded: Object) {
+        if(err) {
+            quickRes.unAuthorized(res, true);
+            return;
+        }
+        res.send({status: false, messae: 'Unauthorized'});
+        next();
+
+    }); 
+});
+
+app.use('/auth', authController);
 
 app.get('/user', (req, res) => {
     let { connection } = new db();
@@ -34,7 +59,6 @@ app.get('/user/search', (req, res) => {
         res.send(data);
     });
 });
-
 
 app.listen(port, () => {
     console.log(`Server at http://localhost:${port}`);
