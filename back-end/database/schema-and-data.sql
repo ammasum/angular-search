@@ -1,3 +1,4 @@
+use test;
 create table users (
 	id INT,
 	first_name VARCHAR(50),

@@ -13,6 +13,7 @@ export class ListsComponent implements OnInit {
   private userSubject = new Subject();
   private searchSegment = 0;
   private searchValue: string;
+  loadingUser = false;
 
   users$ = [];
 
@@ -25,20 +26,30 @@ export class ListsComponent implements OnInit {
       switchMap(userTag => this.userService.get(userTag, this.searchSegment))
     )
       .subscribe(result => {
+        this.loadingUser = false;
         this.users$ = this.users$.concat(result);
       });
+    this.onScroll();
+  }
+
+  onScroll() {
     window.onscroll = (ev) => {
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        this.loadingUser = true;
         this.searchSegment++;
-        this.userService.get(this.searchValue, this.searchSegment)
-          .subscribe(result => {
-            this.users$ = this.users$.concat(result);
-          });
+        setTimeout(() => {
+          this.userService.get(this.searchValue, this.searchSegment)
+            .subscribe(result => {
+              this.loadingUser = false;
+              this.users$ = this.users$.concat(result);
+            });
+        }, 600);
       }
     };
   }
 
   onSearch(value) {
+    this.loadingUser = true;
     this.searchValue = value;
     this.searchSegment = 1;
     this.users$ = [];

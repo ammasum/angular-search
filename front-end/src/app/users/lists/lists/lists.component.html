@@ -12,6 +12,9 @@
         User List
         <user-list *ngFor="let user of users$" [user]="user"></user-list>
       </ng-container>
+      <ng-container *ngIf="loadingUser">
+        <placeholder-list *ngFor="let a of [1,2,3,4]"></placeholder-list>
+      </ng-container>
     </div>
   </div>
 </div>
