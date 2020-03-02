@@ -1,30 +1,36 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
+import qResponse from '../helper/quickResponse';
 import dbConnection from '../helper/dbConnection';
 
 const router = express.Router();
 
 router.get('/hash/:text', (req, res) => {
-    var hash = crypto.createHash('md5').update(req.params.text).digest('hex');
-    res.send(hash);
+    bcrypt.hash(req.params.text, 16)
+        .then((hash) => {
+            res.send(hash);
+        });
 });
 
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
     const { connection } = new dbConnection();
     connection.connect();
     connection.query(`SELECT * FROM users WHERE email='${req.body.email}'`, (err: any, data: any, fields: any) => {
         if(err) console.log(err);
         const user = <any>data[0];
-        const verify = crypto.createVerify('md5');
-        if(verify.verify(req.body.password, user.password)){
-            res.send("Ok");
-        }
-        res.send("False");
+        bcrypt.compare(req.body.password, user.password)
+            .then((result: any) => {
+                if(!result) {
+                    console.log("False loading");
+                    qResponse.loginFaild(res, true);
+                    return;
+                }
+                const token = jwt.sign({ id: user.id, email: user.email }, <string>process.env.jwt_secret);
+                res.send({ status: true, token});
+            });
     });
-    // res.send("Login");
-    // jwt.sign();
 });
 
 router.get('/logout', (req, res) => {

@@ -1,6 +1,6 @@
 use test;
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'AM', 'Masum', 'masum@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b'),
+(1, 'AM', 'Masum', 'masum@gmail.com', '$2b$16$I6kAZMHGc2pbSJUPFcIo9e2ZchUzGQcrOQodmpyYPg4XUDZUpdQYu'),
 (2, 'Bone', 'Elgey', 'belgey1@nih.gov', '1NdPBRx1YchzfkWzt9P7p7j9f3kE5h64pb'),
 (3, 'Vasily', 'Philimore', 'vphilimore2@printfriendly.com', '15SA4xUoGSRqbJ5EaU52Wk7BaKeb5h2WwF'),
 (4, 'Nat', 'Biscomb', 'nbiscomb3@uol.com.br', '18ELvLSkez4YWXJv8nm596Vi9t1AD87sqB'),
