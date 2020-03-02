@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { ListsComponent } from './users/lists/lists/lists.component';
 import { ListComponent } from './users/lists/list/list.component';
 import { PlaceholderListComponent } from './users/placeholder-list/placeholder-list.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListsComponent,
     ListComponent,
-    PlaceholderListComponent
+    PlaceholderListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
