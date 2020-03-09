@@ -17,13 +17,17 @@ router.get('/hash/:text', (req, res) => {
 router.post('/login', (req, res) => {
     const { connection } = new dbConnection();
     connection.connect();
+    console.log(req.body);
     connection.query(`SELECT * FROM users WHERE email='${req.body.email}'`, (err: any, data: any, fields: any) => {
         if(err) console.log(err);
+        if(data.length === 0) {
+            qResponse.loginFaild(res, true);
+            return;
+        }
         const user = <any>data[0];
         bcrypt.compare(req.body.password, user.password)
             .then((result: any) => {
                 if(!result) {
-                    console.log("False loading");
                     qResponse.loginFaild(res, true);
                     return;
                 }

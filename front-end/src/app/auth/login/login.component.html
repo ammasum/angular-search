@@ -2,7 +2,11 @@
     <div class="row justify-content-center">
         <div class="col-6">
             <h4 class="text-center">User Login</h4>
-            <form [formGroup]="loginForm">
+            <div class="alert alert-danger" role="alert" *ngIf="validationFaild">
+                Validation error
+            </div>
+            
+            <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                 <div class="form-group">
                     <label for="">Email</label>
                     <input formControlName="email" type="text" class="form-control">
@@ -14,14 +18,14 @@
                         [type]="showPassword ? 'text': 'password'"
                         class="form-control">
                     <button
-                        (click)="showPassword = !showPassword"
+                        (click)="showPassword = !showPassword;$event.preventDefault()"
                         [ngStyle]="{'color': showPassword ? 'red' : 'black'}"
                         class="field-icon">
                         <span class="fa fa-fw fa-eye"></span></button>
                     
                 </div>
+                <button type="submit" class="btn btn-primary">Login</button>
             </form>
-            <button (click)="onLogin()" class="btn btn-primary">Login</button>
         </div>
     </div>
 </div>

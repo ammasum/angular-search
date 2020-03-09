@@ -19,22 +19,24 @@ app.all('*', (req, res, next) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/user', (req, res, next) => {
-    const token = <string>req.get('Authorization');
-    if(!token) {
-        quickRes.unAuthorized(res, true);
-        return;
-    }
-    jwt.verify(token, <string>process.env.jwt_secret, function(err: any, decoded: Object) {
-        if(err) {
-            quickRes.unAuthorized(res, true);
-            return;
-        }
-        res.send({status: false, messae: 'Unauthorized'});
-        next();
+app.use(bodyParser.json());
 
-    }); 
-});
+// app.use('/user', (req, res, next) => {
+//     const token = <string>req.get('Authorization');
+//     if(!token) {
+//         quickRes.unAuthorized(res, true);
+//         return;
+//     }
+//     jwt.verify(token, <string>process.env.jwt_secret, function(err: any, decoded: Object) {
+//         if(err) {
+//             quickRes.unAuthorized(res, true);
+//             return;
+//         }
+//         res.send({status: false, messae: 'Unauthorized'});
+//         next();
+
+//     }); 
+// });
 
 app.use('/auth', authController);
 
